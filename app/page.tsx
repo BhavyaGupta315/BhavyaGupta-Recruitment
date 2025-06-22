@@ -23,7 +23,7 @@ export default function Home(){
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    const fullUrl = `${location.origin}/data?token=${link}`;
+    const fullUrl = `${location.origin}/data/${link}`;
     navigator.clipboard.writeText(fullUrl).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
@@ -87,10 +87,10 @@ export default function Home(){
                 <div className="flex items-center justify-between p-3 border rounded-lg shadow-sm">
                   <a
                     className="text-sm text-left truncate flex-1"
-                    href={`/data?token=${link}`}
+                    href={`/data/${link}`}
                     target="_blank"
                   >
-                    {`${location.origin}/data?token=${link}`}
+                    {`${location.origin}/data/${link}`}
                   </a>
                   <button
                     onClick={handleCopy}
