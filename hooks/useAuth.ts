@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { isExpired, refreshAccessToken } from "@/utils/auth";
+import { isExpired, refreshAccessToken } from "@/lib/auth";
 
 export const useAuth = () => {
   const [auth, setAuth] = useState(false);

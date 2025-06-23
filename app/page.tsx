@@ -80,6 +80,7 @@ export default function Home(){
               >
                 {loading ? "Generating..." : "Generate Shareable Link"}
               </Button>
+              {/* We can also use a checkbox here, to enable or disable the link manually.*/}
             </div>
             {link !== "" && (
               <div className="max-w-2xl w-full px-4 text-center">

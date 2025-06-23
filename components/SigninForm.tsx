@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "./ui/button";
-import Link from "next/link";
+import { loginSchema } from "@/lib/schemas";
 
 type ErrRes = {
   error: string;
@@ -35,7 +35,18 @@ export default function SigninForm(){
     const handleSignin = async () => {
         try {
             setLoading(true);
-            console.log("Form Data ", formData);
+            const result = loginSchema.safeParse(formData);
+            if (!result.success) {
+            const errors = result.error.flatten().fieldErrors;
+
+            const errorMsg =
+                errors.username?.[0] ??
+                errors.password?.[0] ??
+                "Invalid input, please check your credentials.";
+                alert(errorMsg);
+                return;
+            }
+
             const response = await axios.post<MyRes>("https://tnp-recruitment-challenge.manitvig.live/login", formData);
             if("accessToken" in response.data){
                 localStorage.setItem("token", response.data.accessToken);
@@ -72,18 +83,8 @@ export default function SigninForm(){
             </div>
             <input placeholder="Enter your Password" onChange={handleChange} className="w-full px-2 py-1 border rounded border-slate-200" name="password" type="password"/>
         </div>
-        <div className="pt-4">
+        <div className="py-4">
             <Button onClick={handleSignin}>{loading ? "Signing in..." : "Sign in"}</Button>
-        </div>
-        <div>
-            <div className="py-2 text-sm flex justify-center">
-                <div>
-                    Don&apos;t have an account?
-                </div>
-                <Link className="pointer underline pl-1 cursor-pointer" href="/signup">
-                    Signup
-                </Link>
-            </div>
         </div>
     </>
 }
